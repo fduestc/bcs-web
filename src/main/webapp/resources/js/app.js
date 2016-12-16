@@ -1,9 +1,9 @@
 /**
  * 
  */
-var BCSApp = angular.module('BCSApp',['ngRoute']);
+var BcsApp = angular.module('BcsApp',['ngRoute']);
 
-BCSApp.config(['$routeProvider' , function($routeProvider) {
+BcsApp.config(['$routeProvider' , function($routeProvider) {
 	
 	$routeProvider.when('/', { 
 		controller: 'LoginController', 
@@ -13,17 +13,17 @@ BCSApp.config(['$routeProvider' , function($routeProvider) {
 		controller: 'HomeController', 
 		templateUrl: 'pages/home.html',
 	})
-	.when('/baojhq',{
-		controller: 'BaojhqController', 
-		templateUrl: 'pages/baojhq.html',
+	.when('/quotation',{
+		controller: 'QuotationController', 
+		templateUrl: 'pages/quotation.html',
 	})
-	.when('/jiaoyyd',{
-		controller: 'JiaoyydController', 
-		templateUrl:'pages/jiaoyyd.html',
+	.when('/transactionRep',{
+		controller: 'TransactionRepController', 
+		templateUrl:'pages/transaction_rep.html',
 	})
-    .when('/jiaoyrz',{
-    	controller: 'JiaoyrzController', 
-    	templateUrl:'pages/jiaoyrz.html'
+    .when('/transactionLog',{
+    	controller: 'TransactionLogController', 
+    	templateUrl:'pages/transaction_log.html'
     })
     .otherwise({redirectTo:'/'});
 }]);

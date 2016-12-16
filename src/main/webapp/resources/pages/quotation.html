@@ -4,9 +4,9 @@
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-	<title>CBS</title>
+	<title>BCS</title>
 </head>
-<body>
+<body ng-controller="QuotationController">
 <div ng-include="'pages/common/header.html'"></div>
 <div class="panel panel-default">
   <div class="panel-heading">
@@ -44,7 +44,7 @@
 		<tr ng-repeat="Transaction in Transactions" class="text-center">
 			<td>			 			
 			<label class="text-center">
-				<input type="radio"  name="inlineRadioOptions" id="inlineRadio2" value="">
+				<input type="radio" name="inlineRadioOptions" id="inlineRadio2" value="">
 			</label>
 			</td>					 			
 			  <td>{{ Transaction.TransactionType }}</td>

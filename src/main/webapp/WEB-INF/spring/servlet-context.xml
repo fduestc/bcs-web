@@ -6,7 +6,7 @@
 	http://www.springframework.org/schema/beans/spring-beans.xsd
 	http://www.springframework.org/schema/context
 	http://www.springframework.org/schema/context/spring-context.xsd">
-
+  
 	<!-- http://stackoverflow.com/questions/28950134/spring-jpa-no-transaction-is-in-progress -->
 	<!-- http://zhidao.baidu.com/link?url=Sqbx9Oed_-2uTNL4aJVzyofhTsLqKDGmdrGxhtLq_TUREj-cetK4FHcWGnseEvjjrAcdnuC1nKlgzXfl8ozZmVFT4J7UI9GVy8yEA_vew-q -->
 	<!-- 上下文扫描设置 -->
