@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+	<title>CBS</title>
+</head>
+<body>
+<div ng-include="'pages/common/header.html'"></div>
+<div class="panel panel-default">
+  <div class="panel-heading">
+      	<button class="btn btn-primary btn-sm" type="button" data-toggle="modal" data-target="#myModal">
+			新建报价
+		</button>
+		<button class="btn btn-primary btn-sm" type="button" data-toggle="modal" data-target="#send">
+			发起交易
+		</button>
+  </div>
+  <div class="panel-body">
+  	<div class="table-responsive">		
+  		<table class="table table-striped table-hover">
+		<thead>
+		<tr>
+			<th ></th>			
+			<th class="text-center" >交易品种</th>
+			<th class="text-center" >报价机构</th>
+			<th class="text-center" >币种</th>
+			<th class="text-center" >交易方向</th>
+			<th class="text-center" >交易金额</th>
+			<th class="text-center" >利率</th>
+			<th class="text-center" >计息基准</th>
+			<th class="text-center" >期限</th>
+			<th class="text-center" >起息日</th>
+			<th class="text-center" >到期日</th>
+			<th class="text-center" >利息</th>
+			<th class="text-center" >到期还款金额</th>
+			<th class="text-center" >发布时间</th>
+			<th class="text-center" >到期还款金额</th>
+			<th class="text-center" >发布时间</th>
+		</tr>
+	</thead>
+	<tbody >
+		<tr ng-repeat="Transaction in Transactions" class="text-center">
+			<td>			 			
+			<label class="text-center">
+				<input type="radio"  name="inlineRadioOptions" id="inlineRadio2" value="">
+			</label>
+			</td>					 			
+			  <td>{{ Transaction.TransactionType }}</td>
+		      <td>{{ Transaction.SenderInstitutionCode }}</td>
+		      <td>{{ Transaction.Currency }}</td>
+		      <td>{{ Transaction.Side }}</td>
+		      <td>{{ Transaction.Amount }}</td>
+		      <td>{{ Transaction.Rate }}%</td>
+		      <td>{{ Transaction.DayCountConvention }}</td>
+		      <td>{{ Transaction.Tenor }}</td>
+		      <td>{{ Transaction.ValueDate }}</td>
+		      <td>{{ Transaction.DueDate }}</td>
+		      <td>{{ Transaction.Interest }}</td>
+		      <td>{{ Transaction.TotalRepayment }}</td>
+		      <td>{{ Transaction.SendTime }}</td>
+		      <td>{{ Transaction.TotalRepayment }}</td>
+		      <td>{{ Transaction.SendTime }}</td>
+		</tr>		
+	</tbody>
+	</table>
+	</div>
+	</div>
+</div>
+<!--paging  -->
+<div class="row">
+	<div class="col-lg-2  pull-right">
+		<ul class="pagination text-right" style="margin: 0px;" >  
+		    <li ng-class="{true:'disabled'}[p_current==1]"><a href="javascript:void(0);" ng-click="p_index()">首页</a></li>  
+		    <li ng-repeat="page in pages" ng-class="{true:'active'}[p_current==page]"><a href="javascript:void(0);" ng-click="load_page()">5</a></li>  
+		    <li ng-class="{true:'disabled'}[p_current==p_all_page]"><a href="javascript:void(0);" ng-click="p_last()">尾页</a></li> 
+		</ul>  
+		<span style="vertical-align: 12px;">  共：{{count}} 条</span>
+	</div>
+</div>
+<!-- 模态框（Modal） -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog" style="width:800px;">
+		<div class="modal-content">	
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+					&times;
+				</button>
+				<h4 class="modal-title" id="myModalLabel">
+					新建报价
+				</h4>				
+			</div>
+			<div class="modal-body">
+				<form class="form-horizontal" role="form" >
+					  <div class="form-group">					   
+					  	 <label for="firstname" class="col-sm-2 control-label">交易品种</label>
+							<div class="col-sm-3">
+								 <select class="form-control">
+								  <option>同业存款</option>
+								</select>
+							</div>
+							<label for="name" class="col-sm-2 control-label">交易方向</label>
+							<div class="col-sm-3">
+								 <label class="radio-inline">
+							  	<input type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1" checked="checked"> 存入
+								</label>
+								<label class="radio-inline">
+							  	<input type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2">存出
+					 			</label>
+							</div>
+						</div>				   
+					 		
+					  <div class="form-group">
+					  <label for="name" class="col-sm-2 control-label">币种</label>
+					 	<div class="col-sm-3">
+							<select class="form-control">
+								 <option>CNY</option>
+							</select>
+						</div>
+						<label for="name" class="col-sm-2 control-label">计息基准</label>
+						<label ng-model="benchmark" class="col-sm-2 control-label">360</label>					 
+					  </div>		
+					 	
+					 <div class="form-group">
+					  <label for="name" class="col-sm-2 control-label">起息日</label>
+					 	<div class="col-sm-3">
+							<div class="input-group date">
+				                <input class="form-control" name='interview_time' id="interview_time" readonly>
+								<span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+				             </div>
+						</div>
+						<label for="name" class="col-sm-2 control-label">期限</label>
+						<div class="col-sm-3">
+							 <select class="form-control">
+								<option></option>
+								<option>1M</option>
+								<option>3M</option>
+								<option>6M</option>
+								<option>9M</option>
+								<option>1Y</option>
+							</select>
+						</div>
+					  </div>
+					  
+					  <div class="form-group">
+					  <label for="name" class="col-sm-2 control-label">还款日</label>
+					  	<div class="col-sm-3">
+							<div class="input-group date">
+				                <input class="form-control" name='interview_time' id="interview_time" readonly>
+								<span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+				             </div>
+						</div>
+						<label for="name" class="col-sm-2 control-label">利率</label>
+						<div class="col-sm-2">
+							<input type="text" class="form-control"  id="name">
+						</div>
+						<label for="name" class="col-sm-1 control-label">%</label>
+					  </div>
+					  
+					 <div class="form-group">
+					  <label for="name" class="col-sm-2 control-label">交易金额</label>
+					 	<div class="col-sm-3">
+							<input type="text" class="form-control"  id="name" placeholder="交易金额">
+						</div>
+						<label for="name" class="col-sm-2 control-label">利息</label>
+						<label ng-model="benchmark" class="col-sm-2 control-label">0.00</label>					 
+					  </div>
+					  
+					   <div class="form-group">
+					  <label for="name" class="col-sm-2 control-label">本方清算账户</label>
+					 	<div class="col-sm-3">
+							<input type="text" class="form-control"  id="name" placeholder="本方清算账户">
+						</div>											 
+					  </div>
+				 </form> 						 						 					 			 	             					 					 				
+				</div>						  
+				
+				 <div class="form-group">
+					  <div class="text-center">
+					<button type="button" class="btn btn-default" data-dismiss="modal" style="margin-right: 100px;">关闭
+					</button>
+					<button type="button" class="btn btn-primary">
+						发送
+					</button>
+				</div>
+				</div>	 									
+			</div>
+		</div>
+	</div>
+
+<!-- 模态框（Modal） -->
+<div class="modal fade" id="send" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog" style="width:800px;">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+					&times;
+				</button>
+				<h4 class="modal-title" id="myModalLabel">
+					新建报价
+				</h4>
+			</div>
+			<div class="modal-body">
+				<form class="form-horizontal" role="form" >
+					  <div class="form-group">					   
+					  	 <label for="firstname" class="col-sm-2 control-label">交易品种</label>
+							<div class="col-sm-3">
+								 <select class="form-control">
+								  <option>同业存款</option>
+								</select>
+							</div>
+							<label for="name" class="col-sm-2 control-label">交易方向</label>
+							<div class="col-sm-3">
+								 <label class="radio-inline">
+							  	<input type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1" checked="checked"> 存入
+								</label>
+								<label class="radio-inline">
+							  	<input type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2">存出
+					 			</label>
+							</div>
+						</div>				   
+					 		
+					  <div class="form-group">
+					  <label for="name" class="col-sm-2 control-label">币种</label>
+					 	<div class="col-sm-3">
+							<select class="form-control">
+								 <option>CNY</option>
+							</select>
+						</div>
+						<label for="name" class="col-sm-2 control-label">计息基准</label>
+						<label ng-model="benchmark" class="col-sm-2 control-label">360</label>					 
+					  </div>		
+					 	
+					 <div class="form-group">
+					  <label for="name" class="col-sm-2 control-label">起息日</label>
+					 	<div class="col-sm-3">
+							<div class="input-group date">
+				                <input class="form-control" name='interview_time' id="interview_time" readonly>
+								<span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+				             </div>
+						</div>
+						<label for="name" class="col-sm-2 control-label">期限</label>
+						<div class="col-sm-3">
+							 <select class="form-control">
+								<option></option>
+								<option>1M</option>
+								<option>3M</option>
+								<option>6M</option>
+								<option>9M</option>
+								<option>1Y</option>
+							</select>
+						</div>
+					  </div>
+					  
+					  <div class="form-group">
+					  <label for="name" class="col-sm-2 control-label">还款日</label>
+					  	<div class="col-sm-3">
+							<div class="input-group date">
+				                <input class="form-control" name='interview_time' id="interview_time" readonly>
+								<span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+				             </div>
+						</div>
+						<label for="name" class="col-sm-2 control-label">利率</label>
+						<div class="col-sm-2">
+							<input type="text" class="form-control"  id="name">
+						</div>
+						<label for="name" class="col-sm-1 control-label">%</label>
+					  </div>
+					  
+					 <div class="form-group">
+					  <label for="name" class="col-sm-2 control-label">交易金额</label>
+					 	<div class="col-sm-3">
+							<input type="text" class="form-control"  id="name" placeholder="交易金额">
+						</div>
+						<label for="name" class="col-sm-2 control-label">利息</label>
+						<label ng-model="benchmark" class="col-sm-2 control-label">0.00</label>					 
+					  </div>
+					  
+					   <div class="form-group">
+					  <label for="name" class="col-sm-2 control-label">本方清算账户</label>
+					 	<div class="col-sm-3">
+							<input type="text" class="form-control"  id="name" placeholder="本方清算账户">
+						</div>											 
+					  </div>
+				 </form> 						 						 					 			 	             					 					 				
+				</div>						  					 
+					<div class="form-group">
+					 <div class="text-center">					
+						<button type="button" class="btn btn-primary">
+							提交
+						</button>
+					</div>
+				</div>						
+			</div>
+		</div>
+	</div>
+
+<script type="text/javascript">
+$(function(){
+	init();
+});  
+
+
+//页面初始化
+function init() {
+	var $dateDiv = $('.input-group.date');
+	$dateDiv.datepicker({
+		format: "yyyy-mm-dd",
+		weekStart: 1,
+		clearBtn: true,
+		language: "zh-CN",
+		autoclose: true,
+		todayHighlight: true
+	});
+}
+		
+</script>
+</body>
+</html>

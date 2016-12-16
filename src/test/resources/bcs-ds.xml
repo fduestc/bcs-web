@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+	http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.springframework.org/schema/tx
+	http://www.springframework.org/schema/tx/spring-tx.xsd
+	http://www.springframework.org/schema/context
+	http://www.springframework.org/schema/context/spring-context.xsd">
+
+	<context:annotation-config />
+
+	<bean id="bcs-ds" class="com.alibaba.druid.pool.DruidDataSource"
+		init-method="init" destroy-method="close">
+		<property name="name" value="bcs数据源" />
+		<property name="url" value="jdbc:mysql://localhost:3306/bcs" />
+		<property name="username" value="bcs" />
+		<property name="password" value="bcs" />
+
+		<property name="maxActive" value="20" />
+		<property name="initialSize" value="5" />
+		<property name="maxWait" value="60000" />
+		<property name="minIdle" value="1" />
+
+		<property name="timeBetweenEvictionRunsMillis" value="3000" />
+		<property name="minEvictableIdleTimeMillis" value="300000" />
+
+		<property name="validationQuery" value="SELECT 'x' FROM DUAL" />
+		<property name="testWhileIdle" value="true" />
+		<property name="testOnBorrow" value="false" />
+		<property name="testOnReturn" value="false" />
+		<!-- mysql 不支持 poolPreparedStatements -->
+		<!--<property name="poolPreparedStatements" value="true" /> -->
+		<!--<property name="maxPoolPreparedStatementPerConnectionSize" value="20" 
+			/> -->
+
+		<!-- 开启Druid的监控统计功能 -->
+		<property name="filters" value="stat" />
+	</bean>
+
+	<bean id="entityManagerFactory"
+		class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+		<property name="dataSource" ref="bcs-ds"></property>
+		<property name="persistenceUnitName" value="bcs"></property>
+		<property name="jpaVendorAdapter">
+			<bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
+				<property name="databasePlatform" value="org.hibernate.dialect.MySQLDialect"></property>
+				<property name="showSql" value="true"></property>
+				<property name="generateDdl" value="false"></property>
+			</bean>
+		</property>
+		<property name="jpaProperties">
+			<props>
+				<prop key="hibernate.hbm2ddl.auto">validate</prop>
+			</props>
+		</property>
+	</bean>
+
+	<bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+		<property name="entityManagerFactory" ref="entityManagerFactory" />
+	</bean>
+
+	<!-- <bean class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor" 
+		/> -->
+
+	<tx:annotation-driven transaction-manager="transactionManager" />
+	<!-- <tx:annotation-driven transaction-manager="transactionManager" proxy-target-class="true"/> -->
+
+	<!-- <bean id="txManager" class="org.springframework.orm.jpa.JpaTransactionManager"> 
+		<property name="entityManagerFactory" ref="entityManagerFactory"></property> 
+		</bean> -->
+
+	<!-- <tx:annotation-driven transaction-manager="txManager" proxy-target-class="true" 
+		/> -->
+
+</beans>

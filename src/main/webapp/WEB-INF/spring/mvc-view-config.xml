@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!-- 视图映射 from 3.2.x -->
+	<bean
+		class="org.springframework.web.servlet.view.ContentNegotiatingViewResolver">
+		<property name="contentNegotiationManager">
+			<bean
+				class="org.springframework.web.accept.ContentNegotiationManagerFactoryBean">
+				<property name="ignoreAcceptHeader" value="true" />
+				<property name="defaultContentType" value="text/html" />
+				<property name="mediaTypes">
+					<props>
+						<prop key="json">application/json</prop>
+						<prop key="xml">application/xml</prop>
+						<prop key="html">text/html</prop>
+						<prop key="pdf">application/pdf</prop>
+						<prop key="xsl">application/vnd.ms-excel</prop>
+					</props>
+				</property>
+			</bean>
+		</property>
+		<property name="viewResolvers">
+			<list>
+				<ref bean="beanNameViewResolver" />
+				<ref bean="internalResourceResolver" />
+			</list>
+		</property>
+		<property name="defaultViews">
+			<list>
+				<!-- <bean class="org.springframework.web.servlet.view.json.MappingJacksonJsonView" 
+					/> -->
+				<!-- <ref bean="jacksonMessageConverter" /> -->
+				<ref bean="marshallingResolver" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="beanNameViewResolver"
+		class="org.springframework.web.servlet.view.BeanNameViewResolver" />
+	<!-- jsp视图 -->
+	<bean id="internalResourceResolver"
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="viewClass"
+			value="org.springframework.web.servlet.view.JstlView" />
+		<property name="prefix" value="/WEB-INF/views/" />
+		<property name="suffix" value=".jsp" />
+	</bean>
+	<!-- json视图 -->
+	<bean id="jacksonMessageConverter"
+		class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter" />
+	<!-- xml视图 -->
+	<bean id="marshallingResolver"
+		class="org.springframework.web.servlet.view.xml.MarshallingView">
+		<property name="marshaller">
+			<bean class="org.springframework.oxm.xstream.XStreamMarshaller" />
+		</property>
+	</bean>
+
+</beans>

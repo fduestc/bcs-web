@@ -1,0 +1,173 @@
+<!Doctype html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+	<title>CBS</title>
+
+</head>
+<body>
+<div ng-include="'pages/common/header.html'"></div>
+<div class="panel panel-info">
+  <div class="panel-heading">
+	<form class="form-horizontal" ng-controller="JiaoyrzController">
+	<div class="form-group">
+	  <label class="col-md-1 control-label">成交日起</label>
+	  <div class="col-md-2">
+    	  <select ng-model="status.DueDate" class="form-control">
+		  </select>
+	  </div>
+	  
+	   <label class="col-md-1 control-label">成交日至</label>
+	  <div class="col-md-2">
+	       <select ng-model="status.DueDate" class="form-control">
+ 		   </select>
+	  </div>
+	  
+	  <label class="col-md-1 control-label">对手方机构<br/>代码</label>
+	  <div class="col-md-2">
+	      <select ng-model="engineer.CounterPartyInstitutionCode" class="form-control">
+	      	<option></option>             
+	      	<option>ICBC</option>             
+	      	<option>ABSH</option>             
+	      	<option>BBSH</option>             
+ 		   </select>
+	  </div>
+	  
+	
+       <label class="col-md-1 control-label">交易品种</label>
+       <div class="col-md-2">
+         <select ng-model="engineer.currentActivity" class="form-control"
+        			  ng-options="act for act in activities">               
+ 		   </select>
+       </div>
+	
+	</div> 
+	<div class="form-group">
+	  <label class="col-md-1 control-label">起息日起</label>
+	  <div class="col-md-2">
+	      <select ng-model="status.DueDate" class="form-control">
+		  </select>
+	  </div>
+	  
+	   <label class="col-md-1 control-label">起息日至</label>
+	  <div class="col-md-2">
+	       <select ng-model="status.DueDate" class="form-control">
+ 		   </select>
+	  </div>
+	  
+	  <label class="col-md-1 control-label">币种</label>
+	  <div class="col-md-2">
+	       <select ng-model="engineer.Currency" class="form-control">  
+	       		<option>CNY</option>             
+ 		   </select>
+	  </div>
+	  
+	
+       <label class="col-md-1 control-label">状态</label>
+       <div class="col-md-2">
+         	<select ng-model="status.currentActivity" class="form-control"
+        			  ng-options="act for act in statusOption">               
+ 		   </select>
+       </div>
+	
+	</div> 
+	<div class="row">
+	  <label class="col-md-1 control-label">还款日起</label>
+	  <div class="col-md-2">
+	    	<select ng-model="status.DueDate" class="form-control">
+		    </select>
+	  </div>
+	  
+	   <label class="col-md-1 control-label">还款日至</label>
+	  <div class="col-md-2">
+	       <select ng-model="status.DueDate" class="form-control">
+ 		   </select>
+	  </div>
+	  
+	  <label class="col-md-1 control-label">交易方向</label>
+	  <div class="col-md-2">
+	       <select ng-model="status.Side" class="form-control">
+	       	<option>存入</option>               
+	       	<option>存出</option>               
+ 		   </select>
+	  </div>
+	  
+	   <label class="col-md-1 control-label"></label>
+	  <div class="col-md-1 text-rigth">
+	    <button type="button" class="btn btn-primary">查找</button>
+	  </div>
+	</div> 
+  </form>
+</div>
+
+
+ <div class="panel-body">
+<div class="table-responsive">
+	<table class="table table-striped table-hover">
+	  <thead>
+	    <tr>
+	     	<th class="text-center">交易品种</th>
+			<th class="text-center">成交日期</th>
+			<th class="text-center">成交时间</th>
+			<th class="text-center">成交编号</th>
+			<th class="text-center">本方机构代码</th>
+			<th class="text-center">本方清算账户</th>
+			<th class="text-center">对手方机构代码</th>
+			<th class="text-center">对手方清算账户</th>
+			<th class="text-center">币种</th>
+			<th class="text-center">交易方向</th>
+			<th class="text-center">交易金额</th>
+			<th class="text-center">利率</th>
+			<th class="text-center">计息基准</th>
+			<th class="text-center">期限</th>
+			<th class="text-center">起息日</th>
+			<th class="text-center">还款日</th>
+			<th class="text-center">利息</th>
+			<th class="text-center">到期还款金额</th>
+			<th class="text-center">交易状态</th>
+	
+	    </tr>
+	  </thead>
+	  <tbody>
+	    <tr ng-repeat="Transaction in Transactions" class="text-center">
+	      <td>{{ Transaction.TransactionType }}</td>
+	      <td>{{ Transaction.TransactionDate }}</td>
+	      <td>{{ Transaction.TransactionTime }}</td>
+	      <td>{{ Transaction.TransactionID }}</td>
+	      <td>{{ Transaction.SenderInstitutionCode }}</td>
+	      <td>{{ Transaction.SettlementAccount }}</td>
+	      <td>{{ Transaction.CounterPartyInstitutionCode }}</td>
+	      <td>{{ Transaction.CounterPartyInstitutionSettlementAccount }}</td>
+	      <td>{{ Transaction.Currency }}</td>
+	      <td>{{ Transaction.Side }}</td>
+	      <td>{{ Transaction.Amount }}</td>
+	      <td>{{ Transaction.Rate }}%</td>
+	      <td>{{ Transaction.DayCountConvention }}</td>
+	      <td>{{ Transaction.Tenor }}</td>
+	      <td>{{ Transaction.ValueDate }}</td>
+	      <td>{{ Transaction.DueDate }}</td>
+	      <td>{{ Transaction.Interest }}</td>
+	      <td>{{ Transaction.TotalRepayment }}</td>
+	      <td>{{ Transaction.TransactionStatus }}</td>	      
+	    </tr>
+	  </tbody>
+	</table>
+	</div>
+  </div>
+  </div>
+<!--paging  -->
+<div class="row">
+	<div class="col-lg-2  pull-right">
+		<ul class="pagination text-right" style="margin: 0px;" >  
+		    <li ng-class="{true:'disabled'}[p_current==1]"><a href="javascript:void(0);" ng-click="p_index()">首页</a></li>  
+		    <li ng-repeat="page in pages" ng-class="{true:'active'}[p_current==page]"><a href="javascript:void(0);" ng-click="load_page(page)">{{ page }}</a></li>  
+		    <li ng-class="{true:'disabled'}[p_current==p_all_page]"><a href="javascript:void(0);" ng-click="p_last()">尾页</a></li> 
+		</ul>  
+		<span style="vertical-align: 12px;">  共：{{count}} 条</span>
+	</div>
+</div>
+</body>
+
+</html>
